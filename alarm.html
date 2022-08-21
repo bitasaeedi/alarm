@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>alart</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Poppins;
+      }
+      body {
+        background-color: #4a99f8;
+      }
+      .container {
+        display: flex;
+        justify-content: space-around;
+        margin: 150px auto;
+      }
+      .left-box {
+        background-color: white;
+        width: 600px;
+        height: 317px;
+        background-color: #4a99f8;
+        border-left: 10px solid white;
+        font-size: 70px;
+        font-weight: 500;
+        padding-left: 35px;
+        margin: 60px -170px 0 0;
+        color: white;
+        margin-left: 70px;
+      }
+      .right-box {
+        background-color: white;
+        width: 450px;
+        height: 450px;
+        border-radius: 2%;
+        box-shadow: 4px 4px 25px #636e84;
+        margin-right: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        padding: 10px 35px 10px;
+      }
+      .responsive {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        border-radius: 50%;
+      }
+      .set-button {
+        width: 100%;
+        height: 56px;
+        background-color: #4a99f8;
+        border: none;
+        color: white;
+        font-size: larger;
+        border-radius: 7px;
+        cursor: pointer;
+      }
+      .options {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 35px;
+      }
+      .OPTION {
+        width: 100px;
+        text-align: center;
+        font-size: large;
+      }
+      .timer {
+        font-size: xx-large;
+        font-weight: bold;
+        position: relative;
+      }
+      .show{
+        
+        pointer-events: none;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-box">
+        <div>
+          <pre>
+Build An
+Alarm Clock
+Javascript</pre
+          >
+        </div>
+      </div>
+      <div class="right-box">
+        <div>
+          <img src="./clock.png" alt="" class="responsive" />
+        </div>
+
+        <div class="timer">00:00:00 PM</div>
+
+        <div class="options">
+          <select class="hour OPTION">
+            <option value="hour" class="OPTION">Hours</option>
+          </select>
+
+          <select class="minute OPTION">
+            <option value="minute" class="OPTION">Minute</option>
+          </select>
+
+          <select class="am-pm OPTION">
+            <option value="AM" class="OPTION">AM</option>
+            <option value="PM" class="OPTION">PM</option>
+          </select>
+        </div>
+        <div class="set-button">
+          <button class="set-button">Set Alarm</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let timer = document.querySelector(".timer");
+      let hour = document.querySelectorAll(".options select")[0];
+      let minute = document.querySelectorAll(".options select")[1];
+      let am_pm = document.querySelectorAll(".options select")[2];
+      let button = document.querySelectorAll(".set-button")[1];
+      
+      let clock = setInterval(() => {
+        let time = new Date();
+        let hours = time.getHours();
+        let mins = time.getMinutes();
+        let seconod = time.getSeconds();
+        let s = hours < 13 ? "AM" : "PM";
+        hours = hours < 13 ? hours : hours - 12;
+        timer.innerHTML = `${hours}:${mins}:${seconod}` + " " + s;
+        let TIME = timer.textContent.split(":");
+        let TIME2 = timer.textContent.split(" ");
+  
+        if ( TIME[0] == hour.value &&TIME[1] == minute.value &&   TIME2[1] == am_pm.value ){
+          console.log("now");
+          var audio = new Audio("./Clock-chimes-sounds.mp3");
+          audio.play();
+           clearInterval(clock);
+        }
+      }, 1000);
+
+      //set hour opsions
+      for (let i = 1; i < 13; i++) {
+        const newOption = document.createElement("option");
+        const optionText = document.createTextNode(i);
+        newOption.appendChild(optionText);
+        newOption.setAttribute("value", i);
+        hour.appendChild(newOption);
+      }
+      //set minute opsions
+      for (let i = 0; i < 60; i++) {
+        const newOption = document.createElement("option");
+        const optionText = document.createTextNode(i);
+        newOption.appendChild(optionText);
+        newOption.setAttribute("value", i);
+        minute.appendChild(newOption);
+      }
+      
+let box=document.querySelector(".options");
+      button.addEventListener("click", function () {
+        let flag=false;
+        if(button.textContent=="Set Alarm"){
+        
+        box.classList.add("show");
+        }
+        else if(button.textContent=="clear alarm"){
+            box.classList.remove("show");
+            hour.getElementsByTagName("option")[0].selected="selected";
+            minute.getElementsByTagName("option")[0].selected="selected";
+            am_pm.getElementsByTagName("option")[0].selected="selected";
+            clearInterval(clock);
+            flag=true;
+        }
+         flag==false?button.textContent="clear alarm":button.textContent="Set Alarm";
+        
+      });
+
+      
+    </script>
+  </body>
+</html>
